@@ -1,4 +1,5 @@
 # kbbi-scrape
 
 ## TODO:
- 1. Create REST API
+
+1.  Fix Bug
