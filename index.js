@@ -1,12 +1,14 @@
 require('dotenv').config();
 const express = require('express');
-const { funcLogin, scrape } = require('./components/kbbi');
+const { funcLogin, scrape } = require('./utils/kbbi');
+const { registerAccount } = require('./utils/registerAccount');
 const email = process.env.EMAIL;
 const pass = process.env.PASS;
 
 let cookie;
 
 const app = express();
+app.use(express.json());
 
 app.get('/search/:slug', async (req, res) => {
   const { slug } = req.params;
@@ -25,6 +27,12 @@ app.get('/search/:slug', async (req, res) => {
 
   const { text, definition, success } = scrapeResult;
   return res.json({ success, text, definition }).status(200);
+});
+
+app.post('/register', async (req, res) => {
+  const { namaLengkap, namaTampilan, email, pass } = req.body;
+  const status = await registerAccount(namaLengkap, namaTampilan, email, pass);
+  return res.json({ success: true, message: status }).status(200);
 });
 
 app.listen(process.env.PORT || 5000, () => {
