@@ -1,6 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const { funcLogin, scrape } = require('./components/kbbi');
+const email = process.env.EMAIL;
+const pass = process.env.PASS;
 
 let cookie;
 
@@ -10,7 +12,7 @@ app.get('/search/:slug', async (req, res) => {
   const { slug } = req.params;
   let scrapeResult;
   do {
-    if (!cookie || !scrapeResult?.login) cookie = await funcLogin();
+    if (!cookie || !scrapeResult?.login) cookie = await funcLogin(email, pass);
     scrapeResult = await scrape(slug, cookie);
     console.log(scrapeResult);
   } while (!scrapeResult.login);
