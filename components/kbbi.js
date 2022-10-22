@@ -80,7 +80,7 @@ exports.scrape = (text, cookie) =>
       .catch((err) => reject(err));
   });
 
-exports.funcLogin = async () => {
+exports.funcLogin = async (email, pass) => {
   const { reqToken, cookieToken } = await getReqToken();
   console.log(email, pass);
   return await login(reqToken, cookieToken, email, pass);
